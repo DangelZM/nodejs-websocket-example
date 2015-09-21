@@ -1,0 +1,95 @@
+<dom-module id="currency-list">
+    <style>
+        :host{
+            display: block;
+            padding: 20px;
+        }
+
+        .list-header, .row {
+            padding: 10px;
+        }
+
+        .list-header {
+            background: #369;
+            color: #fff;
+        }
+        .list-body {
+            border: 1px solid #369;
+        }
+        .row {
+            border-top: 1px solid #369;
+        }
+        .row:first-child {
+            border: none;
+        }
+        div.info[data-direction="up"] span{
+            background: #9BE79C;
+        }
+        div.info[data-direction="down"] span{
+            background: #E9B4B3;
+        }
+        .info span {
+            padding: 3px 5px;
+            border-radius: 3px;
+            background: #CCC;
+        }
+    </style>
+    <template>
+        <h3>Currencies</h3>
+        <div class="list-header layout horizontal wrap">
+            <div class="flex">Currency</div>
+            <div class="flex">Rate</div>
+            <div class="flex">Ask</div>
+            <div class="flex">Bid</div>
+            <div class="flex">Date&nbsp;|&nbsp;Time</div>
+        </div>
+        <div class="list-body">
+            <template is="dom-repeat" items="{{list}}">
+                <div class="row layout horizontal wrap">
+                    <div class="flex"><span>{{item.Name}}</span></div>
+                    <div class="flex info" data-direction$="{{compareProperty(index, 'Rate', item.Rate)}}"><span>{{item.Rate}}</span></div>
+                    <div class="flex info" data-direction$="{{compareProperty(index, 'Ask', item.Ask)}}"><span>{{item.Ask}}</span></div>
+                    <div class="flex info" data-direction$="{{compareProperty(index, 'Bid', item.Bid)}}"><span>{{item.Bid}}</span></div>
+                    <div class="flex">
+                        <span>{{item.Date}}</span>&nbsp;|&nbsp;<span>{{item.Time}}</span>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'currency-list',
+            properties: {
+                list: {
+                    type:Array,
+                    notify: true,
+                    observer: "_listChanged"
+                },
+                oldList: Array
+            },
+            _listChanged: function (newValue, oldValue) {
+                this.oldList = oldValue;
+            },
+            compareProperty: function(index, prop, newVal){
+                var direction = '';
+                if(this.oldList !== undefined){
+                    if(newVal > this.oldList[index][prop]){
+                        direction = "up";
+                    } else if(newVal < this.oldList[index][prop]){
+                        direction = "down";
+                    }
+                }
+                return direction;
+            },
+            getOldValue: function (index, prop, newVal) {
+                if(this.oldList !== undefined){
+                    return this.oldList[index][prop];
+                } else {
+                    return '-';
+                }
+
+            }
+        });
+    </script>
+</dom-module>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title}}</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="elements/elements.html"/>
+
+  </head>
+  <body>
+    <template is="dom-bind" id="app">
+        <paper-material>
+            <paper-toolbar>
+                <div class="title">Binary</div>
+            </paper-toolbar>
+            <currency-list list="{{list}}"></currency-list>
+        </paper-material>
+    </template>
+    <script src="javascripts/app.js"></script>
+  </body>
+</html>
