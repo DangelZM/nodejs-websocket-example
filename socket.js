@@ -65,7 +65,7 @@ function getData(socket) {
     socket.emit('message', JSON.parse(body).query.results.rate);
     setTimeout(function () {
       getData(socket);
-    }, 1000);
+    }, 300);
   });
 
   /*socket.emit('message', jsonForTest);
