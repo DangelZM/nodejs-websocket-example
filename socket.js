@@ -40,7 +40,7 @@ var token = "081D75D074AA4092BD6F7720637B0969";
   }
 ];*/
 
-function getData(socket) {
+function getData(io) {
   var currencies = [
     '"AUDUSD"',
     '"EURGBP"',
@@ -62,24 +62,22 @@ function getData(socket) {
     url: apiUrl
   }, function(error, response, body) {
     //console.log(JSON.parse(body).query.results.rate);
-    socket.emit('message', JSON.parse(body).query.results.rate);
+    io.sockets.emit('message', JSON.parse(body).query.results.rate);
     setTimeout(function () {
-      getData(socket);
+      getData(io);
     }, 300);
   });
 
-  /*socket.emit('message', jsonForTest);
-  setTimeout(function () {
-    getData(socket);
-  }, 3000);*/
 }
 
 module.exports = function (server) {
   var io = require('socket.io')(server);
   io.on('connection', function(socket){
     console.log('connected');
-
-    getData(socket);
-
+    socket.on('disconnect', function(){
+      console.log('disconnected');
+    });
   });
+
+  getData(io);
 };
