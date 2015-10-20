@@ -19,7 +19,7 @@ function getData(io) {
   request({
     url: apiUrl
   }, function(error, response, body) {
-    console.log(JSON.parse(body));
+    //console.log(JSON.parse(body));
     var resultBody = JSON.parse(body);
 
     if(resultBody.query && resultBody.query.results){
